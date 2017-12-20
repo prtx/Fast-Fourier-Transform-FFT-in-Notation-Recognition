@@ -3,6 +3,8 @@ from scipy.io.wavfile import read
 from matplotlib import pyplot
 from pylab import specgram
 from math import log
+import numpy as np
+
 
 note_list = ['A','A#','B','C','C#','D','D#','E','F','F#','G','G#',]
 
@@ -36,7 +38,8 @@ def fft(signal):
 def main():
 	
 	frame_rate, amplitude = read('G.wav')
-	amplitude = amplitude[:,0] + amplitude[:,1]
+        if type(amplitude[0]) == np.ndarray:
+		amplitude = (amplitude[:,0] + amplitude[:,1])/2
 	frequencies = [ freq_2_note(abs(freq)) for freq in fft(amplitude)]
 	note_count = []
 	
